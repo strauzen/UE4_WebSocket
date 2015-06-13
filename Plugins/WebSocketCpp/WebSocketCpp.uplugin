@@ -1,0 +1,18 @@
+{
+	"FileVersion": 3,
+	"FriendlyName": "WebSocketCpp",
+	"Version": 1,
+	"VersionName": "0.1",
+	"CreatedBy": "Tridigon",
+	"CreatedByURL": "",
+	"Category": "C++",
+	"Description": "A libwebsocket wrapper to C++",
+	"EnabledByDefault": false,
+	"Modules": [
+		{
+			"Name": "WebSocketCpp",
+			"Type": "Developer",
+			"LoadingPhase": "Default"
+		}
+	]
+}
