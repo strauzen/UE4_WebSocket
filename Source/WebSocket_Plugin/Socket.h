@@ -35,15 +35,15 @@ public:
 
 	void test();
 
-	static int callback_dumb_increment(struct libwebsocket_context* context, 
+	int callback_dumb_increment(struct libwebsocket_context* context, 
 								struct libwebsocket* wsi, 
 								enum libwebsocket_callback_reasons reason, 
 								void* user, void* in, size_t len);
 
 	unsigned int opts;
-	static int was_closed;
-	static int deny_deflate;
-	static int deny_mux;
+	int was_closed;
+	int deny_deflate;
+	int deny_mux;
 	struct libwebsocket *wsi_mirror;
 	int mirror_lifetime;
 	volatile int force_exit;

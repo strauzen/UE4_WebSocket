@@ -3,9 +3,9 @@
 #include "WebSocket_Plugin.h"
 #include "Socket.h"
 
-int ASocket::was_closed;
-int ASocket::deny_deflate;
-int ASocket::deny_mux;
+//int ASocket::was_closed;
+//int ASocket::deny_deflate;
+//int ASocket::deny_mux;
 
 // Sets default values
 ASocket::ASocket()
@@ -19,7 +19,7 @@ ASocket::ASocket()
 
 	libwebsocket_protocols temp = {
 		"dumb-increment-protocol,fake-nonexistant-protocol",
-		&ASocket::callback_dumb_increment,
+		this->callback_dumb_increment,
 		0,
 		20
 	};
