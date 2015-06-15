@@ -35,20 +35,24 @@ public:
 
 	void test();
 
-	int callback_dumb_increment(struct libwebsocket_context* context, 
+	static int callback_dumb_increment(struct libwebsocket_context* context, 
 								struct libwebsocket* wsi, 
 								enum libwebsocket_callback_reasons reason, 
 								void* user, void* in, size_t len);
 
 	unsigned int opts;
-	int was_closed;
-	int deny_deflate;
-	int deny_mux;
-	struct libwebsocket *wsi_mirror;
+	static int was_closed;
+	static int deny_deflate;
+	static int deny_mux;
+	char * address;
+	int port;
+	struct libwebsocket *wsi_dumb;
 	int mirror_lifetime;
 	volatile int force_exit;
 	int longlived;
 	struct libwebsocket_protocols protocols[2];
+	struct lws_context_creation_info info;
+	struct libwebsocket_context * context;
 
 	FString stdStringToFString(std::string in);
 };

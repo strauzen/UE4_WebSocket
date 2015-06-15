@@ -1,3 +1,6 @@
 Intermediate
 Binaries
 *.sdf
+Logs
+/Build/Receipts/WebSocket_PluginEditor-Win64-Development.target.xml
+/Saved/Config

@@ -3,9 +3,9 @@
 #include "WebSocket_Plugin.h"
 #include "Socket.h"
 
-//int ASocket::was_closed;
-//int ASocket::deny_deflate;
-//int ASocket::deny_mux;
+int ASocket::was_closed;
+int ASocket::deny_deflate;
+int ASocket::deny_mux;
 
 // Sets default values
 ASocket::ASocket()
@@ -17,15 +17,20 @@ ASocket::ASocket()
 	force_exit = 0;
 	longlived = 0;
 
+	// Initialization callback functions
 	libwebsocket_protocols temp = {
 		"dumb-increment-protocol,fake-nonexistant-protocol",
-		this->callback_dumb_increment,
+		&callback_dumb_increment,
 		0,
 		20
 	};
 	protocols[0] = temp;
 	temp = { NULL, NULL, 0, 0 };
 	protocols[1] = temp;
+
+	// Random shit
+	memset(&info, 0, sizeof info);
+
 }
 
 // Called when the game starts or when spawned
@@ -44,7 +49,37 @@ void ASocket::Tick( float DeltaTime )
 
 void ASocket::test()
 {
+	address = "localhost";
+	port = 3001;
+	info.port = 3001;
+	info.protocols = protocols;
 
+//#ifndef LWS_NO_EXTENSIONS
+	info.extensions = NULL;
+//#endif
+
+	info.gid = -1;
+	info.uid = -1;
+
+	context = libwebsocket_create_context(&info);
+	if (context == NULL)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("test(): Creating the libwebsocket context failed\n")));
+		return;
+	}
+
+	// Create a client using dumb increment protocol
+	wsi_dumb = libwebsocket_client_connect(context, address, port, 0, "/", "localhost", "", protocols[PROTOCOL_DUMB_INCREMENT].name, -1);
+
+	if (wsi_dumb == NULL)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("test(): Connecting to the dumb protocol failed\n")));
+		return;
+	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("test(): Exiting\n")));
+
+	libwebsocket_context_destroy(context);
 }
 
 int ASocket::callback_dumb_increment(struct libwebsocket_context* context,
