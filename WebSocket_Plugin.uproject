@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{9DE9B394-41FE-334A-1B62-0DB1BBC14417}",
+	"EngineAssociation": "4.7",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -15,23 +15,7 @@
 	],
 	"Plugins": [
 		{
-			"Name": "PluginCreator",
-			"Enabled": true
-		},
-		{
 			"Name": "ScriptPlugin",
-			"Enabled": true
-		},
-		{
-			"Name": "CodeEditor",
-			"Enabled": true
-		},
-		{
-			"Name": "CodeView",
-			"Enabled": true
-		},
-		{
-			"Name": "WebBrowserWidget",
 			"Enabled": true
 		}
 	]
