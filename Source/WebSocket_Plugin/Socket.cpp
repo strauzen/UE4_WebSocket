@@ -31,12 +31,15 @@ ASocket::ASocket()
 	// Random shit
 	memset(&info, 0, sizeof info);
 
+
 }
 
 // Called when the game starts or when spawned
 void ASocket::BeginPlay()
 {
 	Super::BeginPlay();
+
+	test();
 	
 }
 
@@ -50,13 +53,13 @@ void ASocket::Tick( float DeltaTime )
 void ASocket::test()
 {
 	address = "localhost";
-	port = 3001;
-	info.port = 3001;
+	port = 7681;
+	info.port = CONTEXT_PORT_NO_LISTEN;
 	info.protocols = protocols;
 
-//#ifndef LWS_NO_EXTENSIONS
-	info.extensions = NULL;
-//#endif
+#ifndef LWS_NO_EXTENSIONS
+	info.extensions = libwebsocket_get_internal_extensions();
+#endif
 
 	info.gid = -1;
 	info.uid = -1;
@@ -79,7 +82,7 @@ void ASocket::test()
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("test(): Exiting\n")));
 
-	libwebsocket_context_destroy(context);
+	//libwebsocket_context_destroy(context);
 }
 
 int ASocket::callback_dumb_increment(struct libwebsocket_context* context,
@@ -87,6 +90,10 @@ struct libwebsocket* wsi,
 enum libwebsocket_callback_reasons reason,
 	void* user, void* in, size_t len)
 {
+	((char *)in)[len] = '\0';
+	int auxLen = (int)len;
+	std::string auxIn = (char *)in;
+
 	switch (reason) {
 
 	case LWS_CALLBACK_CLIENT_ESTABLISHED:
@@ -105,8 +112,7 @@ enum libwebsocket_callback_reasons reason,
 		break;
 
 	case LWS_CALLBACK_CLIENT_RECEIVE:
-		((char *)in)[len] = '\0';
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("callback_dumb_increment: rx %d '%s'\n"), (int) length, (char *) in));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("callback_dumb_increment: rx %d '%s'\n"), auxLen, auxIn.c_str()));
 		break;
 
 		/* because we are protocols[0] ... */

@@ -4,6 +4,7 @@
 
 #include "AllowWindowsPlatformTypes.h"
 #include "libwebsockets.h"
+#include "private-libwebsockets.h"
 #include <string>
 #include "HideWindowsPlatformTypes.h"
 #include "GameFramework/Actor.h"
